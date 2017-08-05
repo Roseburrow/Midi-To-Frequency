@@ -1,6 +1,7 @@
 // calculate the frequency of a given midi note.
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 
 int main()
@@ -10,6 +11,8 @@ int main()
     double c5; // for frequency of middle C.
     double frequency; //the result of the program.
     int midinote; //the midi note we want the frequency of.
+    char message[256];
+    char* input;
 
     //CALCULATE REQUIRED VALUES.
 
@@ -26,16 +29,26 @@ int main()
     0.5^5 is a fall of 5 octaves.*/
     c0 = c5 * pow(0.5, 5.0);
     
-    while(1)
+    printf("Please enter the MIDI note you want the frequency of: ");
+    input = fgets(message, 256, stdin); //NOTE: gets is depreicated.
+    
+    if (input == NULL)
     {
-	printf("Please enter the MIDI note you want the frequency of: ");
-	scanf("%d", &midinote);
-	
-	if (midinote > 127 || midinote < 0)
-	{
-	    printf("\nPlease eneter a value between 0-127.\n\n");
-	}
-	else break;
+	printf("Error reading input!\n");
+	return 1;
+    }
+    else if (message[0] == '\n' || message[0] == '\0')
+    {
+	printf("Please enter a number between 0-127\n");
+	return 1;
+    }
+
+    midinote = atoi(message);
+
+    if (midinote > 127 || midinote < 0)
+    {
+	printf("\nPlease eneter a value between 0-127.\n\n");
+	return 1;
     }
 
     /*so at the end of it all this calculation equates to:

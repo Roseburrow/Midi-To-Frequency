@@ -1,18 +1,23 @@
-// calculate the frequency of a given midi note.
+//Calculate the frequency of a given midi note.
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
-int main()
+int main(int argc, char* argv[])
 {
     double semitone_ratio;
     double c0; // for frequency of midi note 0.
     double c5; // for frequency of middle C.
     double frequency; //the result of the program.
     int midinote; //the midi note we want the frequency of.
-    char message[256];
-    char* input;
+
+    //Validate arguments...
+    if (argc != 2)
+    {
+	printf("Invalid Use of Program!\nUse: %s MidiNote\n", argv[0]);
+	return 1;
+    }
 
     //CALCULATE REQUIRED VALUES.
 
@@ -29,25 +34,19 @@ int main()
     0.5^5 is a fall of 5 octaves.*/
     c0 = c5 * pow(0.5, 5.0);
     
-    printf("Please enter the MIDI note you want the frequency of: ");
-    input = fgets(message, 256, stdin); //NOTE: gets is depreicated.
-    
-    if (input == NULL)
+    float midif = atof(argv[1]);
+
+    if ((int) midif != midif)
     {
-	printf("Error reading input!\n");
-	return 1;
-    }
-    else if (message[0] == '\n' || message[0] == '\0')
-    {
-	printf("Please enter a number between 0-127\n");
+	printf("Decimal values are not allowed!\n");
 	return 1;
     }
 
-    midinote = atoi(message);
+    midinote = atoi(argv[1]);
 
     if (midinote > 127 || midinote < 0)
     {
-	printf("\nPlease eneter a value between 0-127.\n\n");
+	printf("Please eneter a value between 0-127.\n");
 	return 1;
     }
 
